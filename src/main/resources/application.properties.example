@@ -1,5 +1,7 @@
 spring.application.name=capydent
-app.jwt-secret-key=06a01eca1c52eff6756c0c7d71d2aa87194271d1
+smile.jwt.secret=06a01eca1c52eff6756c0c7d71d2aa87194271d1
+smile.jwt.duration=8600
+smile.jwt.refresh-duration=16800
 spring.datasource.url=jdbc:postgresql://localhost:5432/<DbName>
 spring.datasource.username=<DbUser>
 spring.datasource.password=<DbPassword>
@@ -7,4 +9,5 @@ spring.datasource.hikari.maximum-pool-size = 10
 spring.datasource.hikari.connection-timeout = 30000
 mybatis.configuration.map-underscore-to-camel-case=true
 mybatis.mapper-locations=classpath:mappers/*.xml
+mybatis.type-handlers-package=info.capybaratech.capydent.mybatistype
 logging.level.root=warn
