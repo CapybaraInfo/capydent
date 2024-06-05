@@ -9,4 +9,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserDto {
+    String id;
 }
