@@ -1,0 +1,10 @@
+spring.application.name=capydent
+app.jwt-secret-key=06a01eca1c52eff6756c0c7d71d2aa87194271d1
+spring.datasource.url=jdbc:postgresql://localhost:5432/<DbName>
+spring.datasource.username=<DbUser>
+spring.datasource.password=<DbPassword>
+spring.datasource.hikari.maximum-pool-size = 10
+spring.datasource.hikari.connection-timeout = 30000
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.mapper-locations=classpath:mappers/*.xml
+logging.level.root=warn
