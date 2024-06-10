@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class LoginTokenResponseDto {
-    private String acessToken;
+    private String accessToken;
     private String refreshToken;
     private LoginUserResponseDto userData;
 }
