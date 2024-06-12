@@ -93,7 +93,7 @@ O link para o repositório do frontend pode ser encontrado [aqui](https://github
 Licença
 -------
 
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está licenciado sob a Licença BSD-3-Clause. Veja o arquivo `LICENSE` para mais detalhes.
 
 * * *
 
