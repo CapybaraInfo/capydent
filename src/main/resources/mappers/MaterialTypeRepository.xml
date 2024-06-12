@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.capybaratech.capydent.repositories.MaterialTypeRepository">
+    <select id="getById" resultType="info.capybaratech.capydent.entities.MaterialType">
+        SELECT *
+        FROM materials_types m
+        WHERE m.id = #{id}
+    </select>
+    <select id="filter" resultType="info.capybaratech.capydent.entities.MaterialType">
+        SELECT * FROM materials_types m WHERE 1 = 1
+        <if test="enabled != null">
+            AND m.enabled = #{enabled}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO materials_types (id, description, enabled, created_at, updated_at)
+        VALUES (#{materialType.id}, #{materialType.description}, #{materialType.enabled}, #{materialType.createdAt},
+                #{materialType.updatedAt})
+    </insert>
+
+    <update id="update">
+        UPDATE materials_types
+        SET description = #{materialType.description},
+            enabled     = #{materialType.enabled},
+            updated_at  = #{materialType.updatedAt}
+        WHERE id = #{materialType.id}
+    </update>
+
+    <delete id="delete">
+        UPDATE materials_types
+        SET enabled = false
+        WHERE id = #{materialType.id}
+    </delete>
+</mapper>
