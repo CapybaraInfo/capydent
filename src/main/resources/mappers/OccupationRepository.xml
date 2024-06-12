@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.capybaratech.capydent.repositories.OccupationRepository">
+    <select id="findById" resultType="info.capybaratech.capydent.entities.Occupation">
+        SELECT *
+        FROM occupations o
+        WHERE o.id = #{id}
+    </select>
+    <select id="filter" resultType="info.capybaratech.capydent.entities.Occupation">
+        SELECT * FROM occupations o WHERE 1 = 1
+        <if test="description != null and description != ''">
+            AND o.description ilike #{description} || '%'
+        </if>
+        <if test="enabled != null">
+            AND o.enabled = #{enabled}
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO occupations (id, description, enabled, created_at, updated_at)
+        VALUES (#{occupation.id}, #{occupation.description}, #{occupation.enabled}, #{occupation.createdAt},
+                #{occupation.updatedAt})
+    </insert>
+
+    <update id="update">
+        UPDATE occupations
+        SET description = #{occupation.description},
+            enabled     = #{occupation.enabled},
+            created_at  = #{occupation.createdAt},
+            updated_at  = #{occupation.updatedAt}
+        WHERE id = #{occupation.id}
+    </update>
+
+    <delete id="delete">
+        UPDATE occupations SET enabled = false WHERE id = #{occupation.id}
+    </delete>
+</mapper>
