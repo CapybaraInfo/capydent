@@ -2,9 +2,11 @@ package info.capybaratech.capydent.services.impls;
 
 import com.github.f4b6a3.ulid.Ulid;
 import info.capybaratech.capydent.entities.MaterialType;
+import info.capybaratech.capydent.exceptions.NotFoundException;
 import info.capybaratech.capydent.repositories.MaterialTypeRepository;
 import info.capybaratech.capydent.services.MaterialTypeService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -23,18 +25,34 @@ public class MaterialTypeServiceImpl implements MaterialTypeService {
     }
 
     @Override
-    public void insert(MaterialType materialType) {
+    public MaterialType insert(MaterialType materialType) {
         materialTypeRepository.insert(materialType);
+        return materialType;
     }
 
     @Override
-    public void update(MaterialType materialType) {
-        materialTypeRepository.update(materialType);
+    public MaterialType update(MaterialType materialType) throws NotFoundException {
+        var materialTypeOptional = getById(materialType.getId());
+        if (materialTypeOptional.isPresent()) {
+            var material = materialTypeOptional.get();
+            BeanUtils.copyProperties(materialType, material, "id,createdAt");
+            materialTypeRepository.update(material);
+            return material;
+        }
+        throw new NotFoundException("Recurso não existe");
     }
 
     @Override
-    public void delete(Ulid id) {
-        materialTypeRepository.delete(id, OffsetDateTime.now());
+    public void delete(Ulid id) throws NotFoundException {
+        var materialTypeOptional = materialTypeRepository.getById(id);
+        if (materialTypeOptional.isPresent()) {
+            var type = materialTypeOptional.get();
+            type.setUpdatedAt(OffsetDateTime.now());
+            type.setEnabled(false);
+            materialTypeRepository.delete(type);
+            return;
+        }
+        throw new NotFoundException("Recurso não existe");
     }
 
     @Override

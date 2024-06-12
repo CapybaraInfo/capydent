@@ -2,6 +2,7 @@ package info.capybaratech.capydent.controllers;
 
 import com.github.f4b6a3.ulid.Ulid;
 import info.capybaratech.capydent.entities.MaterialType;
+import info.capybaratech.capydent.exceptions.NotFoundException;
 import info.capybaratech.capydent.services.MaterialTypeService;
 import info.capybaratech.capydent.useCases.materials.types.CreateMaterialTypeDto;
 import info.capybaratech.capydent.useCases.materials.types.MaterialTypeMapper;
@@ -17,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -35,33 +35,41 @@ public class MaterialTypeController {
     @Operation(summary = "List all material types")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<MaterialTypeResponseDto> index(@RequestParam(value = "enabled", required = false) Boolean enabled) {
-        return materialTypeService.filter(enabled).stream().map(i -> materialTypeMapper.toMaterialTypeResponseDto(i)).collect(Collectors.toCollection(TreeSet::new));
+        return materialTypeService.filter(enabled).stream().map(i -> materialTypeMapper.toMaterialTypeResponseDto(i)).toList();
     }
 
     @Operation(summary = "Create a material type")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public MaterialTypeResponseDto createMaterialType(@RequestBody @Valid CreateMaterialTypeDto dto) {
         MaterialType materialType = materialTypeMapper.toMaterialType(dto);
-        materialTypeService.insert(materialType);
-        return materialTypeMapper.toMaterialTypeResponseDto(materialType);
+        var result = materialTypeService.insert(materialType);
+        return materialTypeMapper.toMaterialTypeResponseDto(result);
     }
 
     @Operation(summary = "Update a material type")
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public MaterialTypeResponseDto updateMaterialType(@PathVariable Ulid id, @RequestBody @Valid UpdateMaterialTypeDto dto) {
+    public MaterialTypeResponseDto updateMaterialType(@PathVariable Ulid id, @RequestBody @Valid UpdateMaterialTypeDto dto) throws NotFoundException {
         MaterialType materialType = materialTypeMapper.toMaterialType(dto);
-        materialType.setUpdatedAt(OffsetDateTime.now());
-        materialTypeService.update(materialType);
-        return materialTypeMapper.toMaterialTypeResponseDto(materialType);
+        materialType.setId(id);
+        var result = materialTypeService.update(materialType);
+        return materialTypeMapper.toMaterialTypeResponseDto(result);
     }
 
     @Operation(summary = "Delete a material type")
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> deleteMaterialType(@PathVariable Ulid id) {
+    public ResponseEntity<?> deleteMaterialType(@PathVariable Ulid id) throws NotFoundException {
         materialTypeService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-
+    @Operation(summary = "Get a material type")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public MaterialTypeResponseDto getMaterialTypeById(@PathVariable Ulid id) throws NotFoundException {
+        var result = materialTypeService.getById(id);
+        if (result.isPresent()) {
+            return materialTypeMapper.toMaterialTypeResponseDto(result.get());
+        }
+        throw new NotFoundException("Recurso não existe");
+    }
 }

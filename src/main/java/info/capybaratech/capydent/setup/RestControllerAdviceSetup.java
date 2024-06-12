@@ -1,6 +1,7 @@
 package info.capybaratech.capydent.setup;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import info.capybaratech.capydent.exceptions.AuthenticationException;
 import info.capybaratech.capydent.messages.ErrorMessage;
 import info.capybaratech.capydent.messages.FieldValidationMessage;
@@ -60,7 +61,7 @@ public class RestControllerAdviceSetup {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
-    @ExceptionHandler({UsernameNotFoundException.class, AuthenticationException.class, BadCredentialsException.class, InternalAuthenticationServiceException.class})
+    @ExceptionHandler({UsernameNotFoundException.class, AuthenticationException.class, BadCredentialsException.class, InternalAuthenticationServiceException.class, TokenExpiredException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<ErrorMessage> handleUnauthenticated(final Throwable th) {
         final ErrorMessage defaultErrorResponseDto = ErrorMessage.builder().details("Ocorreu um erro na autorização, credenciais inválidas").title("Não autenticado").type(HttpStatus.UNAUTHORIZED.name()).status(HttpStatus.UNAUTHORIZED.value()).issueAt(OffsetDateTime.now()).build();
