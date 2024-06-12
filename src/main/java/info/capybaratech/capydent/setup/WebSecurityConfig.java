@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(( authorize ->
                         authorize
                                 .requestMatchers(builder.pattern("/api/login")).permitAll()
-                                .requestMatchers(builder.pattern("/api/login/refresh-token")).permitAll()
+                                .requestMatchers(builder.pattern("/api/login/refresh-token/**")).permitAll()
                                 .requestMatchers(builder.pattern("/api/**")).authenticated()
                                 .anyRequest().permitAll()
                 ))

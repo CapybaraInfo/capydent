@@ -55,7 +55,6 @@ CREATE TABLE public.allotments
 (
     id              character(26),
     medicine_id     character(26) NOT NULL,
-    ammount         double precision         DEFAULT 0,
     entry_quantity  double precision         DEFAULT 0,
     cost            double precision         DEFAULT 0,
     expiration_date date          not null,

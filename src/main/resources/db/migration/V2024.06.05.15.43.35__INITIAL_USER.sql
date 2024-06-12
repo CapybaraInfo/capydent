@@ -29,7 +29,7 @@ INSERT INTO PUBLIC.users
 VALUES ('01HZMTPGMB222TSH3Z6H1CRF64',
         'Administrador',
         'admin',
-        '$2a$10$V/zBO6FJl1ojF8wCGSSNQeNp4FkXlaN0T890evTOnS2yUolwXp/qm',
+        '$2a$10$UJzE53wKuWnAMZpnuK9wuup4wJLjpHEodZrEZT4QzuoVQjQR6FLjy',
         'INDIVIDUAL',
         '00.000.000-3',
         '000.000.000-00',

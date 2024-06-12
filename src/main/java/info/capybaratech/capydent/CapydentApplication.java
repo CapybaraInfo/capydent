@@ -11,7 +11,7 @@ public class CapydentApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(CapydentApplication.class, args);
-		System.out.println(new BCryptPasswordEncoder().encode("password") + " " + UlidCreator.getUlid());
+		System.out.println(new BCryptPasswordEncoder().encode("321@Mudar") + " " + UlidCreator.getUlid());
 	}
 
 }

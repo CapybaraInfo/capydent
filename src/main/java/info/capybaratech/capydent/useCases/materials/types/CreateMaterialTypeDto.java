@@ -1,18 +1,19 @@
-package info.capybaratech.capydent.useCases.occupations;
+package info.capybaratech.capydent.useCases.materials.types;
 
+import com.github.f4b6a3.ulid.Ulid;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import java.time.OffsetDateTime;
+
 @Getter
 @Setter
-public class CreateOccupationDto {
-    @NotNull
+@AllArgsConstructor
+@NoArgsConstructor
+public class CreateMaterialTypeDto {
     @NotEmpty
     private String description;
 }
