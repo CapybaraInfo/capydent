@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.capybaratech.capydent.repositories.MaterialRepository">
+
+    <resultMap id="MaterialResultMap" type="info.capybaratech.capydent.entities.Material">
+        <!-- Campos da tabela materials -->
+        <id property="id" column="id"/>
+        <result property="description" column="description"/>
+        <result property="amount" column="amount"/>
+        <result property="minimumQuantity" column="minimum_quantity"/>
+        <result property="cost" column="cost"/>
+        <result property="ignoreStock" column="ignore_stock"/>
+        <result property="enabled" column="enabled"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+
+        <!-- Mapeamento para o objeto MaterialType -->
+        <association property="materialType" javaType="info.capybaratech.capydent.entities.MaterialType">
+            <id property="id" column="mt_id"/>
+            <result property="description" column="mt_description"/>
+            <result property="enabled" column="mt_enabled"/>
+            <result property="createdAt" column="mt_created_at"/>
+            <result property="updatedAt" column="mt_updated_at"/>
+        </association>
+    </resultMap>
+
+    <select id="getById" resultMap="MaterialResultMap">
+        select ml.id
+             , ml.description
+             , ml.amount
+             , ml.minimum_quantity
+             , ml.cost
+             , ml.ignore_stock
+             , ml.enabled
+             , ml.created_at
+             , ml.updated_at
+             , ml.material_type_id mt_id
+             , mlt.description     mt_description
+             , mlt.enabled         mt_enabled
+             , mlt.created_at      mt_created_at
+             , mlt.updated_at      mt_updated_at
+        from materials ml
+                 join materials_types mlt on ml.material_type_id = mlt.id
+        WHERE ml.id = #{id}
+    </select>
+
+    <select id="filter" resultMap="MaterialResultMap">
+        select
+        ml.id
+        ,ml.description
+        ,ml.amount
+        ,ml.minimum_quantity
+        ,ml.cost
+        ,ml.ignore_stock
+        ,ml.enabled
+        ,ml.created_at
+        ,ml.updated_at
+        ,ml.material_type_id mt_id
+        ,mlt.description mt_description
+        ,mlt.enabled mt_enabled
+        ,mlt.created_at mt_created_at
+        ,mlt.updated_at mt_updated_at
+        from materials ml join materials_types mlt on ml.material_type_id = mlt.id
+        WHERE 1=1
+        <if test="enabled != null">
+            AND ml.enabled = #{filter.enabled}
+        </if>
+        <if test="materialTypeId != null">
+            AND ml.material_type_id = #{materialTypeId}
+        </if>
+        <if test="description != null and description !=''">
+            AND ml.description ilike #{description} || '%'
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO materials(id, description, material_type_id, amount, minimum_quantity, cost, ignore_stock, enabled,
+                              created_at, updated_at)
+        VALUES (#{material.id}, #{material.description}, #{material.materialType.id}, #{material.amount},
+                #{material.minimumQuantity},
+                #{material.cost}, #{material.ignoreStock}, #{material.enabled}, #{material.createdAt},
+                #{material.updatedAt});
+    </insert>
+
+    <update id="update">
+        UPDATE materials
+        SET description      = #{material.description},
+            material_type_id = #{material.materialType.id},
+            amount           = #{material.amount},
+            minimum_quantity = #{material.minimumQuantity},
+            cost             = #{material.cost},
+            ignore_stock     = #{material.ignoreStock},
+            enabled          = #{material.enabled},
+            created_at       = #{material.createdAt},
+            updated_at       = #{material.updatedAt}
+        WHERE id = #{material.id};
+    </update>
+
+    <delete id="delete">
+        UPDATE materials
+        SET enabled = #{material.enabled}
+        WHERE id = #{material.id}
+    </delete>
+</mapper>
