@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="info.capybaratech.capydent.repositories.UnitRepository">
+    <insert id="insert">
+        INSERT INTO units (id, description, enabled, created_at, updated_at)
+        VALUES (#{unit.id}, #{unit.description}, #{unit.enabled}, #{unit.createdAt},
+                #{unit.updatedAt})
+    </insert>
+    <update id="update">
+        UPDATE units
+        SET description = #{unit.description},
+            enabled     = #{unit.enabled},
+            created_at  = #{unit.createdAt},
+            updated_at  = #{unit.updatedAt}
+        WHERE id = #{unit.id}
+    </update>
+    <delete id="delete">
+        UPDATE units SET enabled = false WHERE id = #{id}
+    </delete>
+    <select id="getById" resultType="info.capybaratech.capydent.entities.Unit">
+        SELECT *
+        FROM units u
+        WHERE u.id = #{id}
+    </select>
+    <select id="filter" resultType="info.capybaratech.capydent.entities.Unit">
+        SELECT * FROM units u WHERE 1 = 1
+        <if test="enabled != null">
+            AND u.enabled = #{enabled}
+        </if>
+    </select>
+</mapper>
+
