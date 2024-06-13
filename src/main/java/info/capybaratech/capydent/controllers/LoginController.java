@@ -44,7 +44,7 @@ public class LoginController {
 
     @GetMapping(path = "/refresh-token/{token}")
     @Operation(summary = "Get a new access token from refresh token")
-    public RefreshTokenResponseDto refreshToken(@PathVariable String token) {
+    public RefreshTokenResponseDto refreshToken(@PathVariable String token) throws AuthenticationException {
         var newToken = jwtTokenutils.generateNewTokenFromRefresh(token);
         var newRefreshToken = jwtTokenutils.generateNewRefreshTokenFromRefresh(token);
         return new RefreshTokenResponseDto(newToken, newRefreshToken);

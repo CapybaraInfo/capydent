@@ -38,7 +38,7 @@ public class JwtRequestHeaderFilter extends OncePerRequestFilter {
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
-            } catch (UsernameNotFoundException ignored) {
+            } catch (UsernameNotFoundException | AuthenticationException ignored) {
                 // Não propague a exceção, apenas continue com a cadeia de filtros
             }
         }
