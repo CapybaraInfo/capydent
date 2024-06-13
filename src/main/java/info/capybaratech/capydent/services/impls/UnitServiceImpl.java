@@ -2,13 +2,15 @@ package info.capybaratech.capydent.services.impls;
 
 import com.github.f4b6a3.ulid.Ulid;
 import info.capybaratech.capydent.entities.Unit;
+import info.capybaratech.capydent.exceptions.NotFoundException;
 import info.capybaratech.capydent.repositories.UnitRepository;
 import info.capybaratech.capydent.services.UnitService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,14 +30,27 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public Unit update(Unit unit) {
-        unitRepository.update(unit);
-        return unit;
+    public Unit update(Unit unit) throws NotFoundException {
+        var dbUnitOptional = getById(unit.getId());
+        if (dbUnitOptional.isPresent()) {
+            var dbUnit = dbUnitOptional.get();
+            BeanUtils.copyProperties(unit, dbUnit, "id", "createdAt");
+            unitRepository.update(dbUnit);
+            return dbUnit;
+        }
+        throw new NotFoundException("Recurso não existe");
     }
 
     @Override
-    public void delete(Ulid id) {
-        unitRepository.delete(id);
+    public void delete(Ulid id) throws NotFoundException {
+        var dbUnitOptional = getById(id);
+        if (dbUnitOptional.isPresent()) {
+            var dbUnit = dbUnitOptional.get();
+            dbUnit.setUpdatedAt(OffsetDateTime.now());
+            dbUnit.setEnabled(false);
+            unitRepository.delete(dbUnit);
+        }
+        throw new NotFoundException("Recurso não existe");
     }
 
     @Override

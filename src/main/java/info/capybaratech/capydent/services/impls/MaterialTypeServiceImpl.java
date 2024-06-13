@@ -35,7 +35,7 @@ public class MaterialTypeServiceImpl implements MaterialTypeService {
         var materialTypeOptional = getById(materialType.getId());
         if (materialTypeOptional.isPresent()) {
             var material = materialTypeOptional.get();
-            BeanUtils.copyProperties(materialType, material, "id,createdAt");
+            BeanUtils.copyProperties(materialType, material, "id","createdAt");
             materialTypeRepository.update(material);
             return material;
         }

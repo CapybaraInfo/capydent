@@ -16,7 +16,7 @@ public interface UnitRepository {
 
     void update(@Param("unit") Unit unit);
 
-    void delete(@Param("id") Ulid id);
+    void delete(@Param("unit") Unit unit);
 
     Optional<Unit> getById(@Param("id") Ulid id);
 }
