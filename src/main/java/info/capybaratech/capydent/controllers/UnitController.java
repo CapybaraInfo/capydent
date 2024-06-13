@@ -53,7 +53,7 @@ public class UnitController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public UnitResponseDto update(@PathVariable Ulid id, @RequestBody CreateUnitDto unit) {
+    public UnitResponseDto update(@PathVariable Ulid id, @RequestBody CreateUnitDto unit) throws NotFoundException {
         var updatable = unitMapper.toUnit(unit);
         updatable.setId(id);
         var result = unitService.update(updatable);
@@ -62,7 +62,7 @@ public class UnitController {
 
     @DeleteMapping(value = "/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Ulid id) {
+    public void delete(@PathVariable Ulid id) throws NotFoundException {
         this.unitService.delete(id);
     }
 }

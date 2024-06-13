@@ -3,6 +3,7 @@ package info.capybaratech.capydent.setup;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import info.capybaratech.capydent.exceptions.AuthenticationException;
+import info.capybaratech.capydent.exceptions.NotFoundException;
 import info.capybaratech.capydent.messages.ErrorMessage;
 import info.capybaratech.capydent.messages.FieldValidationMessage;
 import org.slf4j.Logger;
@@ -59,6 +60,14 @@ public class RestControllerAdviceSetup {
         final ErrorMessage errorMessage = ErrorMessage.builder().details(th.getMessage()).title("Requisição inválida").type(HttpStatus.BAD_REQUEST.name()).status(HttpStatus.BAD_REQUEST.value()).issueAt(OffsetDateTime.now()).build();
         log.warn("Token inválido", th);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ErrorMessage> handleNotFound(final Throwable th) {
+        final ErrorMessage errorMessage = ErrorMessage.builder().details(th.getMessage()).title("Erro no recurso").type(HttpStatus.NOT_FOUND.name()).status(HttpStatus.NOT_FOUND.value()).issueAt(OffsetDateTime.now()).build();
+        log.warn("Recurso inválido", th);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler({UsernameNotFoundException.class, AuthenticationException.class, BadCredentialsException.class, InternalAuthenticationServiceException.class, TokenExpiredException.class})

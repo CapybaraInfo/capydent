@@ -15,7 +15,10 @@
         WHERE id = #{unit.id}
     </update>
     <delete id="delete">
-        UPDATE units SET enabled = false WHERE id = #{id}
+        UPDATE units
+        SET enabled    = #{unit.enabled},
+            updated_at = #{unit.updatedAt}
+        WHERE id = #{unit.id}
     </delete>
     <select id="getById" resultType="info.capybaratech.capydent.entities.Unit">
         SELECT *
