@@ -2,9 +2,7 @@ package info.capybaratech.capydent.services;
 
 import com.github.f4b6a3.ulid.Ulid;
 import info.capybaratech.capydent.entities.Occupation;
-import info.capybaratech.capydent.entities.Unit;
 import info.capybaratech.capydent.exceptions.NotFoundException;
-
 import java.util.Collection;
 import java.util.Optional;
 

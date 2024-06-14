@@ -1,7 +1,6 @@
 package info.capybaratech.capydent.controllers;
 
 import com.github.f4b6a3.ulid.Ulid;
-import info.capybaratech.capydent.entities.Occupation;
 import info.capybaratech.capydent.exceptions.NotFoundException;
 import info.capybaratech.capydent.services.OccupationService;
 import info.capybaratech.capydent.useCases.occupations.*;
@@ -33,7 +32,7 @@ public class OccupationController {
        return occupations.stream().map(o -> occupationMapper.toOccupationResponseDto(o)).collect(Collectors.toList());
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public OccupationResponseDto show(@PathVariable Ulid id) throws NotFoundException {
         var response = occupationService.getById(id);
         if (response.isPresent()) {
