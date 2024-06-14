@@ -12,8 +12,8 @@ import java.util.Optional;
 @Mapper
 public interface OccupationRepository {
     Optional<Occupation> getById(@Param("id") Ulid id);
-    void insert(Occupation occupation);
-    void update(Occupation occupation);
-    void delete(Occupation occupation);
+    void insert(@Param("occupation") Occupation occupation);
+    void update(@Param("occupation") Occupation occupation);
+    void delete(@Param("occupation") Occupation occupation);
     Collection<Occupation> filter(String description, Boolean enabled);
 }
