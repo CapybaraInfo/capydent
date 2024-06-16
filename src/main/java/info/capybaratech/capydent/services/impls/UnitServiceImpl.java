@@ -49,6 +49,7 @@ public class UnitServiceImpl implements UnitService {
             dbUnit.setUpdatedAt(OffsetDateTime.now());
             dbUnit.setEnabled(false);
             unitRepository.delete(dbUnit);
+            return ;
         }
         throw new NotFoundException("Recurso não existe");
     }
