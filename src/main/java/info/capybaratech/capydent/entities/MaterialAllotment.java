@@ -21,6 +21,6 @@ public class MaterialAllotment {
     private Double cost;
     private LocalDate expirationDate;
     private boolean enabled = true;
-    private OffsetDateTime createdAt;
-    private OffsetDateTime updatedAt;
+    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private OffsetDateTime updatedAt = OffsetDateTime.now();
 }
