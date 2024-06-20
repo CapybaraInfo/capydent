@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS clients
+(
+    id               character(26)          NOT NULL,
+    full_name        character varying(190) NOT NULL,
+    nickname         character varying(190) NOT NULL,
+    person_type      character varying(30)  NOT NULL,
+    brazilian_id     character varying(30)  NOT NULL,
+    tax_id           character varying(30)  NOT NULL,
+    gender           character varying(30)  NOT NULL,
+    date_of_birth    date                   NOT NULL,
+    email            character varying(100),
+    address_line_one character varying(180) NOT NULL,
+    address_line_two character varying(120),
+    neighbourhood    character varying(180) NOT NULL,
+    city             character varying(180) NOT NULL,
+    federation_unit  character varying(40)  NOT NULL,
+    country          character varying(120) NOT NULL,
+    zip_code         character varying(30)  NOT NULL,
+    mobile_phone     character varying(18),
+    phone            character varying(18),
+    enabled          boolean                NOT NULL,
+    is_blocked       boolean                NOT NULL,
+    updated_at       timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at       timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT clients_pkey PRIMARY KEY (id)
+);

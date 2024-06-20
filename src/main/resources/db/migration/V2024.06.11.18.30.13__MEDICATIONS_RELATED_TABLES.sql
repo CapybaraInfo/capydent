@@ -33,6 +33,7 @@ CREATE TABLE public.medicines
     antibiotic             boolean                  DEFAULT false,
     additional_data        character varying(500),
     ignore_stock           boolean                  DEFAULT false,
+    is_perishable          boolean                  default true,
     enabled                boolean                  DEFAULT true,
     created_at             timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at             time with time zone      DEFAULT CURRENT_TIMESTAMP,
@@ -54,10 +55,11 @@ CREATE TABLE public.medicines
 CREATE TABLE public.allotments
 (
     id              character(26),
-    medicine_id     character(26) NOT NULL,
+    medicine_id     character(26)         NOT NULL,
     entry_quantity  double precision         DEFAULT 0,
+    allotment       character varying(20) not null,
     cost            double precision         DEFAULT 0,
-    expiration_date date          not null,
+    expiration_date date                  not null,
     enabled         boolean                  DEFAULT true,
     created_at      timestamp with time zone DEFAULT current_timestamp,
     updated_at      time with time zone      DEFAULT current_timestamp,

@@ -17,6 +17,7 @@ CREATE TABLE public.materials
     minimum_quantity double precision         DEFAULT 0,
     cost             double precision         DEFAULT 0,
     ignore_stock     boolean                  DEFAULT false,
+    is_perishable    boolean                  default true,
     enabled          boolean                  DEFAULT true,
     created_at       time with time zone      DEFAULT current_timestamp,
     updated_at       timestamp with time zone DEFAULT current_timestamp,
@@ -30,10 +31,11 @@ CREATE TABLE public.materials
 CREATE TABLE public.materials_allotments
 (
     id              character(26),
-    material_id     character(26) NOT NULL,
+    material_id     character(26)         NOT NULL,
+    allotment       character varying(20) not null,
     entry_quantity  double precision         DEFAULT 0,
     cost            double precision         DEFAULT 0,
-    expiration_date date          not null,
+    expiration_date date                  not null,
     enabled         boolean                  DEFAULT true,
     created_at      timestamp with time zone DEFAULT current_timestamp,
     updated_at      time with time zone      DEFAULT current_timestamp,
