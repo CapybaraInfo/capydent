@@ -30,7 +30,7 @@ Esta API REST permite a gestão de um consultório dentário, oferecendo funcion
 Tecnologias Utilizadas
 ----------------------
 
-*   **Java 11**
+*   **Java 17**
 *   **Spring Boot**
 *   **MyBatis**
 *   **PostgreSQL**
