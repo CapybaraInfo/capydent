@@ -6,6 +6,9 @@ import info.capybaratech.capydent.enums.FederationUnit;
 import info.capybaratech.capydent.enums.Gender;
 import info.capybaratech.capydent.enums.PersonType;
 import info.capybaratech.capydent.enums.Role;
+import info.capybaratech.capydent.ultils.CnpjGroup;
+import info.capybaratech.capydent.ultils.CpfGroup;
+import info.capybaratech.capydent.ultils.UserValidatorProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +18,16 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.TreeSet;
+
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@GroupSequenceProvider(UserValidatorProvider.class)
 public class User {
     private Ulid id = UlidCreator.getUlid();
     private String fullName;
@@ -28,6 +35,8 @@ public class User {
     private String encodedPass;
     private PersonType personType;
     private String brazilianId;
+    @CPF(groups = CpfGroup.class)
+    @CNPJ(groups = CnpjGroup.class)
     private String taxId;
     private String registrationNumber;
     private Gender gender;
