@@ -50,7 +50,7 @@ public class User {
     private String country;
     private String zipCode;
     private Double commission = 0.0d;
-    private String mobiePhone;
+    private String mobilePhone;
     private String phone;
     private boolean enabled = true;
     private LocalDate hiringDate = LocalDate.now();
